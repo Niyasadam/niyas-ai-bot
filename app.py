@@ -1,9 +1,16 @@
 import streamlit as st
 import google.generativeai as genai
 
-# Setup
-genai.configure(api_key="AIzaSyAGk8IToRQAWBHMoTqxdnjwl9LtYB0CcXw")
-model = genai.GenerativeModel('gemini-2.5-flash')
+# DO NOT put the AIzaSy... string here! 
+# This line tells the app to look in the Streamlit "Vault" instead.
+if "GEMINI_KEY" in st.secrets:
+    api_key = st.secrets["GEMINI_KEY"]
+else:
+    st.error("API Key not found in Secrets!")
+    st.stop()
+
+genai.configure(api_key=api_key)
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 st.title("🤖 Niyas's Personal AI")
 
